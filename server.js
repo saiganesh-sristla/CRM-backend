@@ -16,6 +16,9 @@ app.use('/api/companies', companyRoutes);
 const contactRoutes = require('./routes/contactRoutes');
 app.use('/api/contacts', contactRoutes);
 
+const dealRoutes = require('./routes/dealRoutes');
+app.use('/api/deals', dealRoutes);
+
 // MongoDB connect
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
