@@ -1,30 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/Task');
+const taskController = require('../controllers/taskController')
 
-router.post('/', async (req, res) => {
-  const task = await Task.create(req.body);
-  res.status(201).json(task);
-});
+router.post('/', taskController.createTask);
 
-router.get('/', async (req, res) => {
-  const tasks = await Task.find().populate('relatedTo');
-  res.json(tasks);
-});
+router.get('/', taskController.getAllTask);
 
-router.put('/:id', async (req, res) => {
-  const task = await Task.findById(req.params.id);
-  const data = req.body;
+router.put('/:id', taskController.updateTask);
 
-  await task.updateOne(data);
-  res.status(200).json(task);
-})
-
-router.delete('/:id', async (req, res) => {
-  const task = await Task.findById(req.params.id);
-
-  await task.deleteOne();
-  res.status(200).json(task);
-})
+router.delete('/:id', taskController.deleteTask);
 
 module.exports = router;

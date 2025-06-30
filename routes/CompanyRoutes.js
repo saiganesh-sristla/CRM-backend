@@ -1,35 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Company = require('../models/Company');
+const companyController = require('../controllers/companyController')
 
 // POST /api/companies
-router.post('/', async (req, res) => {
-  try {
-    const company = await Company.create(req.body);
-    res.status(201).json(company);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+router.post('/', companyController.createCompany);
 
 // GET /api/companies
-router.get('/', async (req, res) => {
-  try {
-    const companies = await Company.find();
-    res.json(companies);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.get('/', companyController.getAllCompanies);
 
 // GET /api/companies/:id
-router.get('/:id', async (req, res) => {
-  try {
-    const company = await Company.findById(req.params.id);
-    res.json(company);
-  } catch (err) {
-    res.status(404).json({ error: 'Company not found' });
-  }
-});
+router.get('/:id', companyController.getCompanyById);
 
 module.exports = router;

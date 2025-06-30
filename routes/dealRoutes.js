@@ -1,29 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Deal = require('../models/Deal');
+const dealController = require('../controllers/dealController')
 
-router.post('/', async (req, res) => {
-  const deal = await Deal.create(req.body);
-  res.status(201).json(deal);
-});
+router.post('/', dealController.createDeal);
 
-router.get('/', async (req, res) => {
-  const deals = await Deal.find().populate('company').populate('contact');
-  res.json(deals);
-});
+router.get('/', dealController.getAllDeals);
 
-router.get('/:id', async (req, res) => {
-  const deal = await Deal.findById(req.params.id).populate('company').populate('contact');
-  res.json(deal);
-});
+router.get('/:id', dealController.getDealById);
 
-router.put('/:id', async (req, res) => {
-  const deal = await Deal.findById(req.params.id);
-  const data = req.body;
-
-  await deal.updateOne(data);
-  res.json(deal);
-});
+router.put('/:id', dealController.updateDeal);
 
 
 module.exports = router;

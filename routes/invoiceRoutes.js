@@ -1,45 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Invoice = require('../models/Invoice');
-const Counter = require('../models/Counter');
-const generatePdf = require('../utils/generatePdf');
+const invoiceController = require('../controllers/invoiceController')
 
-router.post('/', async (req, res) => {
-  try {
-    let counter = await Counter.findOne({ name: 'invoice' });
-    if (!counter) {
-      counter = await Counter.create({ name: 'invoice', value: 1 });
-    } else {
-      counter.value++;
-      await counter.save();
-    }
+router.post('/', invoiceController.createInvoice);
 
-    const invoice = await Invoice.create({
-      ...req.body,
-      invoiceNumber: counter.value
-    });
+router.get('/', invoiceController.getAllInvoices);
 
-    res.status(201).json(invoice);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-router.get('/', async (req, res) => {
-  const invoices = await Invoice.find().populate('deal');
-  res.json(invoices);
-});
-
-router.get('/download/:id', async (req, res) => {
-  const invoice = await Invoice.findById(req.params.id).populate('deal');
-  if (!invoice) return res.status(404).json({ error: 'Invoice not found' });
-
-  const pdfBuffer = await generatePdf(invoice);
-  res.set({
-    'Content-Type': 'application/pdf',
-    'Content-Disposition': 'attachment; filename=invoice.pdf',
-  });
-  res.send(pdfBuffer);
-});
+router.get('/download/:id', invoiceController.downloadInvoice);
 
 module.exports = router;
