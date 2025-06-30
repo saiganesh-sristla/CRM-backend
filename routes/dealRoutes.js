@@ -17,4 +17,13 @@ router.get('/:id', async (req, res) => {
   res.json(deal);
 });
 
+router.put('/:id', async (req, res) => {
+  const deal = await Deal.findById(req.params.id);
+  const data = req.body;
+
+  await deal.updateOne(data);
+  res.json(deal);
+});
+
+
 module.exports = router;
