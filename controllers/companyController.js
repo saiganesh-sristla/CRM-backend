@@ -28,8 +28,20 @@ const getCompanyById = async (req, res) => {
   }
 }
 
+const deleteCompany = async (req, res) => {
+  try {
+    await Company.findByIdAndDelete(req.params.id);
+    res.json({
+      message:"company deleted successfully"
+    })
+  } catch (err) {
+    res.status(404).json({ error: 'Company not found' });
+  }
+}
+
 module.exports = {
     createCompany,
     getAllCompanies,
-    getCompanyById
+    getCompanyById,
+    deleteCompany
 }

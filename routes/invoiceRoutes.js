@@ -8,4 +8,6 @@ router.get('/', invoiceController.getAllInvoices);
 
 router.get('/download/:id', invoiceController.downloadInvoice);
 
+router.delete('/:id', invoiceController.deleteInvoice);
+
 module.exports = router;

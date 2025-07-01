@@ -40,9 +40,16 @@ const downloadInvoice =  async (req, res) => {
   res.send(pdfBuffer);
 }
 
+const deleteInvoice = async (req, res) => {
+  await Invoice.findByIdAndDelete(req.params.id);
+  res.json({
+    message: "Invoice deleted successfully"
+  })
+}
 
 module.exports = {
     createInvoice,
     getAllInvoices,
-    downloadInvoice
+    downloadInvoice,
+    deleteInvoice
 }

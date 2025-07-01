@@ -11,4 +11,8 @@ router.get('/', companyController.getAllCompanies);
 // GET /api/companies/:id
 router.get('/:id', companyController.getCompanyById);
 
+// DELETE /api/companies/:id
+router.delete('/:id', companyController.deleteCompany);
+
+
 module.exports = router;
