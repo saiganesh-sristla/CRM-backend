@@ -20,8 +20,14 @@ const getContactById = async (req, res) => {
   res.json(contact);
 }
 
+const deleteContact = async (req, res) => {
+  await Contact.findByIdAndDelete(req.params.id);
+  res.json({message: "contact deleted successfully"})
+}
+
 module.exports = {
     createContact,
     getAllContacts,
-    getContactById
+    getContactById,
+    deleteContact
 }
